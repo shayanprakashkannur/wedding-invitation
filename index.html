@@ -13,11 +13,9 @@
                 extend: {
                     colors: {
                         emeraldDeep: '#064E3B',
-                        emeraldSoft: '#059669',
                         roseGold: '#E8A598',
                         warmGold: '#D4AF37',
-                        cream: '#FDFBF7',
-                        glassBg: 'rgba(255, 255, 255, 0.85)'
+                        cream: '#FDFBF7'
                     },
                     fontFamily: {
                         serif: ['Playfair Display', 'Georgia', 'serif'],
@@ -34,13 +32,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
 
-    <!-- Icons & Confetti -->
+    <!-- FontAwesome & Canvas Confetti -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         .glass-card {
-            background: rgba(255, 255, 255, 0.82);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.7);
@@ -48,16 +46,11 @@
         .hero-bg {
             background: radial-gradient(circle at 50% 30%, #FFF5F5 0%, #FDFBF7 60%, #F5EEF8 100%);
         }
-        @keyframes floatSlow {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-        }
-        .animate-float { animation: floatSlow 4s ease-in-out infinite; }
     </style>
 </head>
 <body class="bg-cream text-gray-800 font-sans antialiased selection:bg-roseGold selection:text-white">
 
-    <!-- Floating Audio Toggle -->
+    <!-- Floating Audio Control -->
     <div class="fixed bottom-6 right-6 z-50">
         <button id="musicToggleBtn" onclick="toggleAudio()" class="w-14 h-14 rounded-full bg-white shadow-2xl border border-rose-100 flex items-center justify-center text-rose-600 hover:scale-110 active:scale-95 transition-all group">
             <i id="musicIcon" class="fas fa-music text-xl"></i>
@@ -68,7 +61,7 @@
         </button>
     </div>
 
-    <!-- Sticky Navigation Bar -->
+    <!-- Navigation Bar -->
     <nav class="fixed top-0 left-0 w-full z-40 bg-white/80 backdrop-blur-md border-b border-rose-100/40">
         <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
             <a href="#" class="font-serif text-xl font-bold tracking-tight text-emeraldDeep flex items-center gap-2">
@@ -78,7 +71,6 @@
             </a>
             <div class="hidden md:flex items-center gap-8 text-xs font-semibold uppercase tracking-widest text-gray-600">
                 <a href="#couple" class="hover:text-rose-600 transition-colors">The Couple</a>
-                <a href="#story" class="hover:text-rose-600 transition-colors">Our Journey</a>
                 <a href="#details" class="hover:text-rose-600 transition-colors">Event Details</a>
                 <a href="#gallery" class="hover:text-rose-600 transition-colors">Gallery</a>
                 <a href="#wishes" class="hover:text-rose-600 transition-colors">Wishes</a>
@@ -98,80 +90,21 @@
             </span>
 
             <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-gray-900 font-bold tracking-tight leading-tight mb-3">
-                Shayan
+                Shayan Prakash
                 <span class="block sm:inline font-hand text-rose-500 text-4xl sm:text-5xl md:text-6xl font-normal mx-2">&</span>
-                Kavya
+                Kavya Das KT
             </h1>
 
-            <p class="text-sm sm:text-base text-gray-600 font-serif italic mb-10">
+            <p class="text-sm sm:text-base text-gray-600 font-serif italic mb-8">
                 We request the honor of your presence as we celebrate our wedding day
             </p>
 
-            <!-- Custom Interactive Cartoon Illustration (Subtle BCA & M.Com Profession Motifs) -->
-            <div class="relative max-w-lg mx-auto mb-10 py-2 flex items-center justify-center">
-                <svg class="w-full h-auto max-h-[300px] drop-shadow-2xl" viewBox="0 0 600 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Soft Background Circle Glow -->
-                    <circle cx="300" cy="160" r="140" fill="#FFF0F2" opacity="0.8"/>
-
-                    <!-- Groom Avatar (Shayan - BCA / IT Tech Details) -->
-                    <g transform="translate(170, 45)">
-                        <!-- Tech Console Window Motif (BCA Background) -->
-                        <rect x="-40" y="20" width="44" height="32" rx="6" fill="#0F172A" opacity="0.95"/>
-                        <circle cx="-32" cy="27" r="1.5" fill="#EF4444"/>
-                        <circle cx="-27" cy="27" r="1.5" fill="#F59E0B"/>
-                        <circle cx="-22" cy="27" r="1.5" fill="#10B981"/>
-                        <text x="-32" y="44" font-family="monospace" font-size="11" fill="#38BDF8" font-weight="bold">&lt;/&gt;</text>
-                        
-                        <!-- Groom Suit -->
-                        <path d="M 10 170 C 10 130, 70 130, 70 170 L 70 230 L 10 230 Z" fill="#1E293B"/>
-                        <path d="M 32 135 L 40 160 L 48 135 Z" fill="#FFFFFF"/>
-                        <path d="M 38 140 L 42 140 L 41 165 L 39 165 Z" fill="#BE123C"/>
-
-                        <!-- Groom Head & Glasses -->
-                        <circle cx="40" cy="90" r="32" fill="#FCE7F3"/>
-                        <path d="M 10 85 C 15 55, 65 55, 70 85 C 60 70, 20 70, 10 85 Z" fill="#0F172A"/>
-                        <circle cx="30" cy="90" r="7" stroke="#0F172A" stroke-width="2" fill="none"/>
-                        <circle cx="50" cy="90" r="7" stroke="#0F172A" stroke-width="2" fill="none"/>
-                        <line x1="37" y1="90" x2="43" y2="90" stroke="#0F172A" stroke-width="2"/>
-                        <path d="M 32 108 Q 40 115 48 108" stroke="#9F1239" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-                    </g>
-
-                    <!-- Bride Avatar (Kavya - M.Com / Finance Details) -->
-                    <g transform="translate(310, 45)">
-                        <!-- Currency Coins & Chart Motif (M.Com Background) -->
-                        <g transform="translate(85, 20)" class="animate-float">
-                            <circle cx="15" cy="15" r="18" fill="#10B981" opacity="0.2"/>
-                            <text x="7" y="21" font-family="sans-serif" font-size="16" font-weight="bold" fill="#047857">₹</text>
-                            <text x="21" y="13" font-family="sans-serif" font-size="10" font-weight="bold" fill="#D97706">$</text>
-                        </g>
-                        <g transform="translate(95, 68)">
-                            <rect x="0" y="15" width="4" height="10" rx="1" fill="#3B82F6"/>
-                            <rect x="6" y="10" width="4" height="15" rx="1" fill="#10B981"/>
-                            <rect x="12" y="5" width="4" height="20" rx="1" fill="#F59E0B"/>
-                            <path d="M-2 18 L6 11 L14 4" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round"/>
-                        </g>
-
-                        <!-- Bride Attire & Details -->
-                        <path d="M 10 170 C 10 120, 70 120, 70 170 L 80 230 L 0 230 Z" fill="#BE123C"/>
-                        <path d="M 20 135 C 30 150, 50 150, 60 135" stroke="#F59E0B" stroke-width="4" fill="none"/>
-
-                        <!-- Bride Head & Floral Hair Accents -->
-                        <circle cx="40" cy="90" r="30" fill="#FCE7F3"/>
-                        <path d="M 8 90 C 5 50, 75 50, 72 90 C 70 60, 10 60, 8 90 Z" fill="#0F172A"/>
-                        <circle cx="15" cy="70" r="5" fill="#FFFFFF"/>
-                        <circle cx="23" cy="65" r="5" fill="#F43F5E"/>
-                        <circle cx="31" cy="63" r="5" fill="#FFFFFF"/>
-                        <circle cx="28" cy="88" r="2" fill="#0F172A"/>
-                        <circle cx="52" cy="88" r="2" fill="#0F172A"/>
-                        <circle cx="40" cy="80" r="2" fill="#BE123C"/>
-                        <path d="M 32 105 Q 40 112 48 105" stroke="#9F1239" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-                    </g>
-
-                    <!-- Central Floating Heart -->
-                    <g transform="translate(290, 115)" class="animate-bounce">
-                        <path d="M 12 22 C 12 22, 0 14, 0 7 C 0 3, 3 0, 7 0 C 9 0, 11 1, 12 3 C 13 1, 15 0, 17 0 C 21 0, 24 3, 24 7 C 24 14, 12 22, 12 22 Z" fill="#E11D48"/>
-                    </g>
-                </svg>
+            <!-- Custom 3D Pixar Illustration Card -->
+            <div class="relative max-w-md sm:max-w-lg mx-auto mb-10 group">
+                <div class="absolute -inset-1 bg-gradient-to-r from-rose-400 to-amber-300 rounded-3xl blur opacity-30 group-hover:opacity-50 transition duration-500"></div>
+                <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
+                    <img src="watermarked_img_4238159280104608357.png" alt="Shayan and Kavya Cartoon Wedding Illustration" class="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700">
+                </div>
             </div>
 
             <!-- Date & Venue Card -->
@@ -321,7 +254,7 @@
         </div>
     </section>
 
-    <!-- Photo Gallery & Lightbox -->
+    <!-- Photo Gallery -->
     <section id="gallery" class="py-24 px-4 bg-white">
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-16">
