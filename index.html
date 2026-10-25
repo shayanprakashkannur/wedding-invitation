@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shayan & Kavya - Wedding Invitation</title>
+    <title>Shayan & Kavya — Wedding Invitation</title>
 
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
+                        emeraldDeep: '#064E3B',
+                        emeraldSoft: '#059669',
                         roseGold: '#E8A598',
                         warmGold: '#D4AF37',
-                        blush: '#FFF5F5',
-                        deepRose: '#8B263E',
-                        techPurple: '#6366F1',
-                        financeGreen: '#10B981'
+                        cream: '#FDFBF7',
+                        glassBg: 'rgba(255, 255, 255, 0.85)'
                     },
                     fontFamily: {
                         serif: ['Playfair Display', 'Georgia', 'serif'],
@@ -34,38 +34,33 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
 
-    <!-- FontAwesome & Canvas Confetti -->
+    <!-- Icons & Confetti -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         .glass-card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
         }
-        .hero-gradient {
-            background: linear-gradient(135deg, #FFF0F2 0%, #FDEDEC 50%, #F5EEF8 100%);
+        .hero-bg {
+            background: radial-gradient(circle at 50% 30%, #FFF5F5 0%, #FDFBF7 60%, #F5EEF8 100%);
         }
         @keyframes floatSlow {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(3deg); }
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
         }
-        @keyframes pulseGlow {
-            0%, 100% { opacity: 0.4; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.08); }
-        }
-        .animate-float { animation: floatSlow 5s ease-in-out infinite; }
-        .animate-glow { animation: pulseGlow 4s ease-in-out infinite; }
+        .animate-float { animation: floatSlow 4s ease-in-out infinite; }
     </style>
 </head>
-<body class="bg-amber-50/30 text-gray-800 font-sans antialiased overflow-x-hidden selection:bg-roseGold selection:text-white">
+<body class="bg-cream text-gray-800 font-sans antialiased selection:bg-roseGold selection:text-white">
 
-    <!-- Floating Audio Control -->
-    <div class="fixed bottom-5 right-5 z-50">
-        <button id="musicToggleBtn" onclick="toggleAudio()" class="w-12 h-12 rounded-full bg-white/90 shadow-xl border border-rose-200 flex items-center justify-center text-rose-600 hover:scale-110 active:scale-95 transition-all duration-300 group">
-            <i id="musicIcon" class="fas fa-music text-lg group-hover:rotate-12 transition-transform"></i>
+    <!-- Floating Audio Toggle -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <button id="musicToggleBtn" onclick="toggleAudio()" class="w-14 h-14 rounded-full bg-white shadow-2xl border border-rose-100 flex items-center justify-center text-rose-600 hover:scale-110 active:scale-95 transition-all group">
+            <i id="musicIcon" class="fas fa-music text-xl"></i>
             <span id="soundWave" class="hidden absolute -top-1 -right-1 flex h-3 w-3">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
                 <span class="relative inline-flex rounded-full h-3 w-3 bg-rose-500"></span>
@@ -73,317 +68,252 @@
         </button>
     </div>
 
-    <!-- Navigation Bar -->
-    <nav class="fixed top-0 left-0 w-full z-40 bg-white/70 backdrop-blur-md border-b border-rose-100/50 transition-all duration-300">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-            <a href="#" class="font-serif text-lg font-bold text-deepRose flex items-center gap-2">
-                <i class="fas fa-heart text-rose-400 text-xs"></i>
-                <span>S & K</span>
+    <!-- Sticky Navigation Bar -->
+    <nav class="fixed top-0 left-0 w-full z-40 bg-white/80 backdrop-blur-md border-b border-rose-100/40">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="#" class="font-serif text-xl font-bold tracking-tight text-emeraldDeep flex items-center gap-2">
+                <span>Shayan</span>
+                <span class="font-hand text-rose-500 text-2xl font-normal">&</span>
+                <span>Kavya</span>
             </a>
-            <div class="hidden sm:flex items-center gap-6 text-xs font-semibold uppercase tracking-wider text-gray-600">
-                <a href="#couple" class="hover:text-deepRose transition-colors">Couple</a>
-                <a href="#story" class="hover:text-deepRose transition-colors">Story</a>
-                <a href="#details" class="hover:text-deepRose transition-colors">Event</a>
-                <a href="#gallery" class="hover:text-deepRose transition-colors">Gallery</a>
-                <a href="#wishes" class="hover:text-deepRose transition-colors">Wishes</a>
+            <div class="hidden md:flex items-center gap-8 text-xs font-semibold uppercase tracking-widest text-gray-600">
+                <a href="#couple" class="hover:text-rose-600 transition-colors">The Couple</a>
+                <a href="#story" class="hover:text-rose-600 transition-colors">Our Journey</a>
+                <a href="#details" class="hover:text-rose-600 transition-colors">Event Details</a>
+                <a href="#gallery" class="hover:text-rose-600 transition-colors">Gallery</a>
+                <a href="#wishes" class="hover:text-rose-600 transition-colors">Wishes</a>
             </div>
-            <a href="#rsvp" class="px-4 py-1.5 rounded-full bg-deepRose text-white text-xs font-medium hover:bg-rose-800 shadow-sm transition-all hover:shadow-rose-200">
-                RSVP Now
+            <a href="#rsvp" class="px-5 py-2 rounded-full bg-emeraldDeep text-white text-xs font-semibold tracking-wider hover:bg-emerald-800 shadow-md transition-all">
+                RSVP NOW
             </a>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="min-h-screen hero-gradient pt-24 pb-16 px-4 flex flex-col items-center justify-center relative overflow-hidden">
-        <!-- Background Romantic Floral SVG Blur Accents -->
-        <div class="absolute -top-10 -left-10 w-72 h-72 bg-rose-200/40 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute bottom-10 -right-10 w-80 h-80 bg-purple-200/30 rounded-full blur-3xl pointer-events-none"></div>
-
+    <section class="min-h-screen hero-bg pt-28 pb-16 px-4 flex flex-col items-center justify-center relative overflow-hidden">
         <div class="text-center max-w-3xl mx-auto relative z-10">
-            <span class="inline-block px-4 py-1.5 rounded-full bg-white/80 border border-rose-200 text-deepRose text-xs sm:text-sm font-semibold tracking-widest uppercase mb-4 shadow-sm animate-fade-in">
-               We Are Getting Married
-            </span>
             
-            <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-gray-900 font-bold leading-tight tracking-tight mb-2">
-                Shayan <br class="sm:hidden">
-                <span class="font-hand text-deepRose text-4xl sm:text-5xl md:text-6xl font-normal mx-2">&</span> 
-                Kavya
+            <span class="inline-block px-4 py-1.5 rounded-full bg-white/90 border border-rose-200 text-rose-600 text-xs font-bold tracking-widest uppercase mb-6 shadow-sm">
+                Save The Date
+            </span>
+
+            <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-gray-900 font-bold tracking-tight leading-tight mb-3">
+                Shayan Prakash
+                <span class="block sm:inline font-hand text-rose-500 text-4xl sm:text-5xl md:text-6xl font-normal mx-2">&</span>
+                Kavya Das KT
             </h1>
 
-            <p class="text-sm sm:text-base text-gray-600 font-serif italic mb-8">
-                Together with their families, invite you to celebrate their union of love
+            <p class="text-sm sm:text-base text-gray-600 font-serif italic mb-10">
+                We request the honor of your presence as we celebrate our wedding day
             </p>
 
-            <!-- Interactive Cartoon Couples Illustration with Graphical Profession Motifs -->
-            <div class="relative max-w-lg mx-auto mb-10 py-4 flex items-center justify-center">
-                <svg class="w-full h-auto max-h-[280px] drop-shadow-xl" viewBox="0 0 600 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Background Soft Arch -->
-                    <path d="M150 280 C150 120, 450 120, 450 280 Z" fill="url(#archGrad)" opacity="0.4"/>
-                    
-                    <!-- Groom Cartoon Avatar (Shayan - BCA / IT Tech Motifs) -->
-                    <g transform="translate(180, 50)">
-                        <!-- Code Console Window Badge (BCA Motif) -->
-                        <rect x="-45" y="10" width="42" height="30" rx="4" fill="#1E293B" opacity="0.9"/>
-                        <circle cx="-38" cy="16" r="1.5" fill="#EF4444"/>
-                        <circle cx="-33" cy="16" r="1.5" fill="#F59E0B"/>
-                        <circle cx="-28" cy="16" r="1.5" fill="#10B981"/>
-                        <text x="-38" y="32" font-family="monospace" font-size="10" fill="#38BDF8" font-weight="bold">&lt;/&gt;</text>
+            <!-- Custom Interactive Cartoon Illustration (Subtle BCA & M.Com Profession Motifs) -->
+            <div class="relative max-w-lg mx-auto mb-10 py-2 flex items-center justify-center">
+                <svg class="w-full h-auto max-h-[300px] drop-shadow-2xl" viewBox="0 0 600 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Soft Background Circle Glow -->
+                    <circle cx="300" cy="160" r="140" fill="#FFF0F2" opacity="0.8"/>
+
+                    <!-- Groom Avatar (Shayan - BCA / IT Tech Details) -->
+                    <g transform="translate(170, 45)">
+                        <!-- Tech Console Window Motif (BCA Background) -->
+                        <rect x="-40" y="20" width="44" height="32" rx="6" fill="#0F172A" opacity="0.95"/>
+                        <circle cx="-32" cy="27" r="1.5" fill="#EF4444"/>
+                        <circle cx="-27" cy="27" r="1.5" fill="#F59E0B"/>
+                        <circle cx="-22" cy="27" r="1.5" fill="#10B981"/>
+                        <text x="-32" y="44" font-family="monospace" font-size="11" fill="#38BDF8" font-weight="bold">&lt;/&gt;</text>
                         
-                        <!-- Groom Body & Suit -->
-                        <path d="M 10 170 C 10 130, 70 130, 70 170 L 70 230 L 10 230 Z" fill="#1E1B4B"/>
+                        <!-- Groom Suit -->
+                        <path d="M 10 170 C 10 130, 70 130, 70 170 L 70 230 L 10 230 Z" fill="#1E293B"/>
                         <path d="M 32 135 L 40 160 L 48 135 Z" fill="#FFFFFF"/>
                         <path d="M 38 140 L 42 140 L 41 165 L 39 165 Z" fill="#BE123C"/>
-                        
-                        <!-- Groom Head -->
+
+                        <!-- Groom Head & Glasses -->
                         <circle cx="40" cy="90" r="32" fill="#FCE7F3"/>
-                        <!-- Hair -->
-                        <path d="M 10 85 C 15 55, 65 55, 70 85 C 60 70, 20 70, 10 85 Z" fill="#18181B"/>
-                        <!-- Glasses & Eyes -->
-                        <circle cx="30" cy="90" r="7" stroke="#18181B" stroke-width="2" fill="none"/>
-                        <circle cx="50" cy="90" r="7" stroke="#18181B" stroke-width="2" fill="none"/>
-                        <line x1="37" y1="90" x2="43" y2="90" stroke="#18181B" stroke-width="2"/>
-                        <!-- Smile -->
+                        <path d="M 10 85 C 15 55, 65 55, 70 85 C 60 70, 20 70, 10 85 Z" fill="#0F172A"/>
+                        <circle cx="30" cy="90" r="7" stroke="#0F172A" stroke-width="2" fill="none"/>
+                        <circle cx="50" cy="90" r="7" stroke="#0F172A" stroke-width="2" fill="none"/>
+                        <line x1="37" y1="90" x2="43" y2="90" stroke="#0F172A" stroke-width="2"/>
                         <path d="M 32 108 Q 40 115 48 108" stroke="#9F1239" stroke-width="2.5" stroke-linecap="round" fill="none"/>
                     </g>
 
-                    <!-- Bride Cartoon Avatar (Kavya - M.Com / Finance Motifs) -->
-                    <g transform="translate(300, 50)">
-                        <!-- Finance Ledger & Currency Floating Badge (M.Com Motif) -->
-                        <g transform="translate(90, 15)" class="animate-float">
-                            <circle cx="15" cy="15" r="18" fill="#10B981" opacity="0.15"/>
-                            <text x="7" y="21" font-family="sans-serif" font-size="16" font-weight="bold" fill="#059669">₹</text>
-                            <text x="20" y="14" font-family="sans-serif" font-size="10" font-weight="bold" fill="#D97706">$</text>
+                    <!-- Bride Avatar (Kavya - M.Com / Finance Details) -->
+                    <g transform="translate(310, 45)">
+                        <!-- Currency Coins & Chart Motif (M.Com Background) -->
+                        <g transform="translate(85, 20)" class="animate-float">
+                            <circle cx="15" cy="15" r="18" fill="#10B981" opacity="0.2"/>
+                            <text x="7" y="21" font-family="sans-serif" font-size="16" font-weight="bold" fill="#047857">₹</text>
+                            <text x="21" y="13" font-family="sans-serif" font-size="10" font-weight="bold" fill="#D97706">$</text>
                         </g>
-
-                        <!-- Financial Bar Chart Floating Badge -->
-                        <g transform="translate(100, 65)">
+                        <g transform="translate(95, 68)">
                             <rect x="0" y="15" width="4" height="10" rx="1" fill="#3B82F6"/>
                             <rect x="6" y="10" width="4" height="15" rx="1" fill="#10B981"/>
                             <rect x="12" y="5" width="4" height="20" rx="1" fill="#F59E0B"/>
                             <path d="M-2 18 L6 11 L14 4" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round"/>
                         </g>
 
-                        <!-- Bride Body & Traditional Dress -->
+                        <!-- Bride Attire & Details -->
                         <path d="M 10 170 C 10 120, 70 120, 70 170 L 80 230 L 0 230 Z" fill="#BE123C"/>
                         <path d="M 20 135 C 30 150, 50 150, 60 135" stroke="#F59E0B" stroke-width="4" fill="none"/>
 
-                        <!-- Bride Head -->
+                        <!-- Bride Head & Floral Hair Accents -->
                         <circle cx="40" cy="90" r="30" fill="#FCE7F3"/>
-                        <!-- Hair & Flowers -->
-                        <path d="M 8 90 C 5 50, 75 50, 72 90 C 70 60, 10 60, 8 90 Z" fill="#18181B"/>
+                        <path d="M 8 90 C 5 50, 75 50, 72 90 C 70 60, 10 60, 8 90 Z" fill="#0F172A"/>
                         <circle cx="15" cy="70" r="5" fill="#FFFFFF"/>
                         <circle cx="23" cy="65" r="5" fill="#F43F5E"/>
                         <circle cx="31" cy="63" r="5" fill="#FFFFFF"/>
-                        <!-- Face Details -->
-                        <circle cx="28" cy="88" r="2" fill="#18181B"/>
-                        <circle cx="52" cy="88" r="2" fill="#18181B"/>
-                        <!-- Bindi -->
+                        <circle cx="28" cy="88" r="2" fill="#0F172A"/>
+                        <circle cx="52" cy="88" r="2" fill="#0F172A"/>
                         <circle cx="40" cy="80" r="2" fill="#BE123C"/>
-                        <!-- Smile -->
                         <path d="M 32 105 Q 40 112 48 105" stroke="#9F1239" stroke-width="2.5" stroke-linecap="round" fill="none"/>
                     </g>
 
-                    <!-- Center Heart Glow -->
-                    <g transform="translate(285, 120)" class="animate-bounce">
-                        <path d="M 15 28 sm:C 15 28, 0 18, 0 9 C 0 4, 4 0, 9 0 C 12 0, 14 2, 15 4 C 16 2, 18 0, 21 0 C 26 0, 30 4, 30 9 C 30 18, 15 28, 15 28 Z" fill="#E11D48"/>
+                    <!-- Central Floating Heart -->
+                    <g transform="translate(290, 115)" class="animate-bounce">
+                        <path d="M 12 22 C 12 22, 0 14, 0 7 C 0 3, 3 0, 7 0 C 9 0, 11 1, 12 3 C 13 1, 15 0, 17 0 C 21 0, 24 3, 24 7 C 24 14, 12 22, 12 22 Z" fill="#E11D48"/>
                     </g>
-
-                    <defs>
-                        <linearGradient id="archGrad" x1="150" y1="120" x2="450" y2="280" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#FECDD3"/>
-                            <stop offset="1" stop-color="#E0E7FF"/>
-                        </linearGradient>
-                    </defs>
                 </svg>
             </div>
 
-            <!-- Date & Location Card -->
-            <div class="glass-card max-w-md mx-auto rounded-3xl p-6 shadow-xl border border-white/80 mb-8">
-                <div class="flex items-center justify-center gap-3 text-deepRose font-semibold mb-2">
-                    <i class="far fa-calendar-alt text-lg"></i>
-                    <span class="tracking-wide uppercase text-sm">Sunday, December 13, 2026</span>
+            <!-- Date & Venue Card -->
+            <div class="glass-card max-w-md mx-auto rounded-3xl p-6 shadow-xl border border-white mb-8">
+                <div class="text-rose-600 font-semibold mb-1 tracking-wide uppercase text-sm">
+                    Sunday, December 13, 2026
                 </div>
-                <div class="text-xs text-gray-500 font-medium flex items-center justify-center gap-1">
-                    <i class="fas fa-map-marker-alt text-rose-500"></i>
+                <div class="text-xs text-gray-500 font-medium flex items-center justify-center gap-1.5">
+                    <i class="fas fa-location-dot text-rose-500"></i>
                     <span>Koyilandy, Kerala, India</span>
                 </div>
             </div>
 
             <!-- Live Countdown Timer -->
-            <div class="grid grid-cols-4 gap-2 sm:gap-4 max-w-sm sm:max-w-md mx-auto">
-                <div class="glass-card p-3 rounded-2xl text-center shadow-sm">
+            <div class="grid grid-cols-4 gap-3 max-w-sm sm:max-w-md mx-auto">
+                <div class="glass-card p-4 rounded-2xl text-center shadow-sm">
                     <span id="cd-days" class="block font-serif text-2xl sm:text-3xl font-bold text-gray-900">00</span>
-                    <span class="text-[10px] sm:text-xs font-medium uppercase text-gray-500">Days</span>
+                    <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-gray-500">Days</span>
                 </div>
-                <div class="glass-card p-3 rounded-2xl text-center shadow-sm">
+                <div class="glass-card p-4 rounded-2xl text-center shadow-sm">
                     <span id="cd-hours" class="block font-serif text-2xl sm:text-3xl font-bold text-gray-900">00</span>
-                    <span class="text-[10px] sm:text-xs font-medium uppercase text-gray-500">Hours</span>
+                    <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-gray-500">Hours</span>
                 </div>
-                <div class="glass-card p-3 rounded-2xl text-center shadow-sm">
+                <div class="glass-card p-4 rounded-2xl text-center shadow-sm">
                     <span id="cd-mins" class="block font-serif text-2xl sm:text-3xl font-bold text-gray-900">00</span>
-                    <span class="text-[10px] sm:text-xs font-medium uppercase text-gray-500">Mins</span>
+                    <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-gray-500">Mins</span>
                 </div>
-                <div class="glass-card p-3 rounded-2xl text-center shadow-sm">
+                <div class="glass-card p-4 rounded-2xl text-center shadow-sm">
                     <span id="cd-secs" class="block font-serif text-2xl sm:text-3xl font-bold text-rose-600">00</span>
-                    <span class="text-[10px] sm:text-xs font-medium uppercase text-gray-500">Secs</span>
+                    <span class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-gray-500">Secs</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Couple Details Section -->
-    <section id="couple" class="py-20 px-4 bg-white">
+    <!-- Couple Section -->
+    <section id="couple" class="py-24 px-4 bg-white">
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-16">
-                <span class="text-xs font-bold uppercase tracking-widest text-rose-500 mb-1 block">The Happy Couple</span>
+                <span class="text-xs font-bold uppercase tracking-widest text-rose-500 mb-2 block">The Couple</span>
                 <h2 class="font-serif text-3xl sm:text-4xl font-bold text-gray-900">Groom & Bride</h2>
-                <div class="w-12 h-0.5 bg-rose-400 mx-auto mt-3"></div>
+                <div class="w-12 h-0.5 bg-rose-400 mx-auto mt-4"></div>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
                 <!-- Groom Card -->
-                <div class="group relative rounded-3xl p-8 bg-slate-50 hover:bg-indigo-50/40 border border-slate-100 hover:border-indigo-100 transition-all duration-300 text-center">
-                    <!-- Subtle BCA Graphical Badge -->
-                    <div class="absolute top-4 right-4 px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-[11px] font-mono font-semibold flex items-center gap-1.5">
-                        <span>&lt; / &gt;</span>
+                <div class="relative rounded-3xl p-8 bg-slate-50 border border-slate-100 text-center hover:shadow-xl transition-all">
+                    <div class="absolute top-4 right-4 px-3 py-1 rounded-full bg-slate-200 text-slate-700 text-[11px] font-mono font-semibold flex items-center gap-1.5">
+                        <span>&lt;/&gt;</span>
                         <i class="fas fa-laptop text-xs"></i>
                     </div>
 
-                    <div class="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 p-1 shadow-lg group-hover:scale-105 transition-transform">
-                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
-                            <i class="fas fa-user-tie text-5xl text-indigo-600"></i>
+                    <div class="w-28 h-28 mx-auto mb-6 rounded-full bg-gradient-to-tr from-slate-700 to-slate-900 p-1 shadow-md">
+                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center">
+                            <i class="fas fa-user-tie text-4xl text-slate-800"></i>
                         </div>
                     </div>
 
                     <h3 class="font-serif text-2xl font-bold text-gray-900 mb-1">Shayan Prakash</h3>
-                    <p class="text-xs font-semibold text-indigo-600 uppercase tracking-widest mb-4">The Groom</p>
+                    <p class="text-xs font-semibold text-slate-600 uppercase tracking-widest mb-4">The Groom</p>
                     <p class="text-sm text-gray-600 leading-relaxed max-w-sm mx-auto">
-                        Passionate about technology, systems, and creative solutions. Ready to embark on life’s greatest adventure with his best friend.
+                        Passionate about technology, systems, and creative solutions. Excited to begin life's finest journey alongside his best friend.
                     </p>
                 </div>
 
                 <!-- Bride Card -->
-                <div class="group relative rounded-3xl p-8 bg-slate-50 hover:bg-emerald-50/40 border border-slate-100 hover:border-emerald-100 transition-all duration-300 text-center">
-                    <!-- Subtle M.Com Graphical Badge -->
+                <div class="relative rounded-3xl p-8 bg-slate-50 border border-slate-100 text-center hover:shadow-xl transition-all">
                     <div class="absolute top-4 right-4 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-[11px] font-semibold flex items-center gap-1.5">
                         <i class="fas fa-chart-line text-xs"></i>
                         <span>₹ $</span>
                     </div>
 
-                    <div class="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-tr from-emerald-400 to-teal-500 p-1 shadow-lg group-hover:scale-105 transition-transform">
-                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden">
-                            <i class="fas fa-user-nurse text-5xl text-emerald-600"></i>
+                    <div class="w-28 h-28 mx-auto mb-6 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-600 p-1 shadow-md">
+                        <div class="w-full h-full rounded-full bg-white flex items-center justify-center">
+                            <i class="fas fa-user-nurse text-4xl text-emerald-700"></i>
                         </div>
                     </div>
 
                     <h3 class="font-serif text-2xl font-bold text-gray-900 mb-1">Kavya Das KT</h3>
-                    <p class="text-xs font-semibold text-emerald-600 uppercase tracking-widest mb-4">The Bride</p>
+                    <p class="text-xs font-semibold text-emerald-700 uppercase tracking-widest mb-4">The Bride</p>
                     <p class="text-sm text-gray-600 leading-relaxed max-w-sm mx-auto">
-                        Driven, thoughtful, and analytical with an eye for detail. Ready to write a beautiful new chapter filled with love, laughter, and happiness.
+                        Thoughtful, analytical, and full of warmth. Ready to write a beautiful new story filled with love, laughter, and endless happiness.
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Love Story Timeline -->
-    <section id="story" class="py-20 px-4 bg-amber-50/40">
-        <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-16">
-                <span class="text-xs font-bold uppercase tracking-widest text-rose-500 mb-1 block">Our Journey</span>
-                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-gray-900">How It Started</h2>
-                <div class="w-12 h-0.5 bg-rose-400 mx-auto mt-3"></div>
-            </div>
-
-            <div class="relative border-l-2 border-rose-200 ml-4 md:ml-0 md:mx-auto max-w-2xl space-y-12">
-                <!-- Timeline item 1 -->
-                <div class="relative pl-8 md:pl-0">
-                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-rose-500 border-4 border-white shadow"></div>
-                    <div class="md:w-1/2 md:pr-10 md:text-right">
-                        <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">The First Chapter</span>
-                        <h4 class="font-serif text-lg font-bold text-gray-900 mt-0.5">First Spark</h4>
-                        <p class="text-sm text-gray-600 mt-2">A simple hello turned into endless conversations, sharing dreams, technology interests, and life goals.</p>
-                    </div>
-                </div>
-
-                <!-- Timeline item 2 -->
-                <div class="relative pl-8 md:pl-0 md:flex md:justify-end">
-                    <div class="absolute -left-[9px] md:left-1/2 md:-translate-x-[9px] top-1.5 w-4 h-4 rounded-full bg-rose-500 border-4 border-white shadow"></div>
-                    <div class="md:w-1/2 md:pl-10">
-                        <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">Growing Together</span>
-                        <h4 class="font-serif text-lg font-bold text-gray-900 mt-0.5">Family Blessings</h4>
-                        <p class="text-sm text-gray-600 mt-2">With mutual affection and complete support from both families, our path forward became crystal clear.</p>
-                    </div>
-                </div>
-
-                <!-- Timeline item 3 -->
-                <div class="relative pl-8 md:pl-0">
-                    <div class="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-rose-500 border-4 border-white shadow"></div>
-                    <div class="md:w-1/2 md:pr-10 md:text-right">
-                        <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">The Celebration</span>
-                        <h4 class="font-serif text-lg font-bold text-gray-900 mt-0.5">Wedding Day</h4>
-                        <p class="text-sm text-gray-600 mt-2">December 13, 2026 — The day we officially exchange vows and begin our forever story in Koyilandy!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Event & Venue Details -->
-    <section id="details" class="py-20 px-4 bg-white">
+    <!-- Event Details -->
+    <section id="details" class="py-24 px-4 bg-cream">
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-16">
-                <span class="text-xs font-bold uppercase tracking-widest text-rose-500 mb-1 block">Where & When</span>
+                <span class="text-xs font-bold uppercase tracking-widest text-rose-500 mb-2 block">Location & Schedule</span>
                 <h2 class="font-serif text-3xl sm:text-4xl font-bold text-gray-900">Wedding Details</h2>
-                <div class="w-12 h-0.5 bg-rose-400 mx-auto mt-3"></div>
+                <div class="w-12 h-0.5 bg-rose-400 mx-auto mt-4"></div>
             </div>
 
             <div class="grid md:grid-cols-2 gap-8">
-                <!-- Main Wedding Ceremony -->
-                <div class="glass-card rounded-3xl p-8 border border-rose-100 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-rose-100/50 rounded-bl-full pointer-events-none"></div>
-                    <div class="w-12 h-12 rounded-2xl bg-rose-500 text-white flex items-center justify-center text-xl mb-6 shadow-md">
-                        <i class="fas fa-rings-wedding"></i>
+                <!-- Ceremony Card -->
+                <div class="glass-card rounded-3xl p-8 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 rounded-2xl bg-rose-500 text-white flex items-center justify-center text-xl mb-6">
+                        <i class="fas fa-ring"></i>
                     </div>
-                    <h3 class="font-serif text-2xl font-bold text-gray-900 mb-2">The Muhurtham & Reception</h3>
-                    <div class="space-y-3 text-sm text-gray-600 mb-6">
+                    <h3 class="font-serif text-2xl font-bold text-gray-900 mb-2">The Muhurtham & Celebration</h3>
+                    <div class="space-y-3 text-sm text-gray-600 mb-8">
                         <p class="flex items-center gap-3">
-                            <i class="far fa-calendar text-rose-500 w-4"></i>
-                            <span class="font-medium">Sunday, December 13, 2026</span>
+                            <i class="far fa-calendar-alt text-rose-500 w-4"></i>
+                            <span class="font-semibold text-gray-800">Sunday, December 13, 2026</span>
                         </p>
                         <p class="flex items-center gap-3">
                             <i class="far fa-clock text-rose-500 w-4"></i>
                             <span>10:00 AM onwards</span>
                         </p>
                         <p class="flex items-start gap-3">
-                            <i class="fas fa-map-marker-alt text-rose-500 w-4 stroke-1 mt-1"></i>
-                            <span>Auditorium / Convention Center, Koyilandy, Kerala, India</span>
+                            <i class="fas fa-map-marker-alt text-rose-500 w-4 mt-1"></i>
+                            <span>Koyilandy, Kerala, India</span>
                         </p>
                     </div>
 
                     <div class="flex flex-wrap gap-3">
-                        <button onclick="openGoogleCalendar()" class="px-4 py-2 rounded-xl bg-gray-900 hover:bg-black text-white text-xs font-semibold flex items-center gap-2 transition-colors">
-                            <i class="fab fa-google"></i> Google Calendar
+                        <button onclick="openGoogleCalendar()" class="px-4 py-2.5 rounded-xl bg-gray-900 hover:bg-black text-white text-xs font-semibold flex items-center gap-2 transition-colors">
+                            <i class="fab fa-google"></i> Add to Google Calendar
                         </button>
-                        <button onclick="downloadICS()" class="px-4 py-2 rounded-xl bg-rose-100 hover:bg-rose-200 text-deepRose text-xs font-semibold flex items-center gap-2 transition-colors">
-                            <i class="fas fa-file-export"></i> Apple / Outlook (.ics)
+                        <button onclick="downloadICS()" class="px-4 py-2.5 rounded-xl bg-rose-100 hover:bg-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2 transition-colors">
+                            <i class="fas fa-download"></i> Download .ics File
                         </button>
                     </div>
                 </div>
 
-                <!-- Google Maps Direction Card -->
-                <div class="glass-card rounded-3xl p-8 border border-rose-100 shadow-sm flex flex-col justify-between">
+                <!-- Google Maps Card -->
+                <div class="glass-card rounded-3xl p-8 shadow-sm flex flex-col justify-between">
                     <div>
-                        <div class="w-12 h-12 rounded-2xl bg-indigo-500 text-white flex items-center justify-center text-xl mb-6 shadow-md">
+                        <div class="w-12 h-12 rounded-2xl bg-emeraldDeep text-white flex items-center justify-center text-xl mb-6">
                             <i class="fas fa-map-marked-alt"></i>
                         </div>
-                        <h3 class="font-serif text-2xl font-bold text-gray-900 mb-2">Location Map</h3>
-                        <p class="text-sm text-gray-600 mb-6 leading-relaxed">
-                            Easily navigate to Koyilandy, Kerala using Google Maps. We can't wait to welcome you on our big day!
+                        <h3 class="font-serif text-2xl font-bold text-gray-900 mb-2">Getting There</h3>
+                        <p class="text-sm text-gray-600 leading-relaxed mb-6">
+                            Navigate directly to Koyilandy, Kerala using Google Maps. We look forward to celebrating with you!
                         </p>
                     </div>
 
-                    <a href="https://maps.google.com/?q=Koyilandy,Kerala,India" target="_blank" class="w-full py-3 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-semibold text-center text-sm flex items-center justify-center gap-2 shadow-lg shadow-rose-200 transition-all">
+                    <a href="https://maps.google.com/?q=Koyilandy,Kerala,India" target="_blank" class="w-full py-3.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-semibold text-center text-sm flex items-center justify-center gap-2 shadow-lg shadow-rose-200 transition-all">
                         <i class="fas fa-directions"></i> Get Directions
                     </a>
                 </div>
@@ -391,22 +321,19 @@
         </div>
     </section>
 
-    <!-- Photo Gallery with Interactive Lightbox -->
-    <section id="gallery" class="py-20 px-4 bg-slate-50">
+    <!-- Photo Gallery & Lightbox -->
+    <section id="gallery" class="py-24 px-4 bg-white">
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-16">
-                <span class="text-xs font-bold uppercase tracking-widest text-rose-500 mb-1 block">Captured Moments</span>
+                <span class="text-xs font-bold uppercase tracking-widest text-rose-500 mb-2 block">Memories</span>
                 <h2 class="font-serif text-3xl sm:text-4xl font-bold text-gray-900">Photo Gallery</h2>
-                <p class="text-xs text-gray-500 mt-1">Tap any photo to view full size or hit the heart to send love!</p>
-                <div class="w-12 h-0.5 bg-rose-400 mx-auto mt-3"></div>
+                <div class="w-12 h-0.5 bg-rose-400 mx-auto mt-4"></div>
             </div>
 
-            <!-- Gallery Grid -->
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-                <!-- Gallery Item 1 -->
-                <div class="group relative aspect-square rounded-2xl overflow-hidden bg-rose-100 cursor-pointer shadow-sm hover:shadow-xl transition-all" onclick="openLightbox('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80', 'Engagement Moment')">
-                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80" alt="Wedding Moment" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 justify-between text-white">
+                <div class="group relative aspect-square rounded-2xl overflow-hidden bg-rose-100 cursor-pointer shadow-sm hover:shadow-xl transition-all" onclick="openLightbox('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80', 'Engagement Ceremony')">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80" alt="Engagement" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 justify-between text-white">
                         <span class="text-xs font-medium">Sweet Moments</span>
                         <button onclick="event.stopPropagation(); toggleLike(this)" class="hover:text-rose-400 text-sm">
                             <i class="far fa-heart"></i> <span class="like-count text-xs">24</span>
@@ -414,10 +341,9 @@
                     </div>
                 </div>
 
-                <!-- Gallery Item 2 -->
-                <div class="group relative aspect-square rounded-2xl overflow-hidden bg-rose-100 cursor-pointer shadow-sm hover:shadow-xl transition-all" onclick="openLightbox('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80', 'Celebration Together')">
-                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=600&q=80" alt="Wedding Rings" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 justify-between text-white">
+                <div class="group relative aspect-square rounded-2xl overflow-hidden bg-rose-100 cursor-pointer shadow-sm hover:shadow-xl transition-all" onclick="openLightbox('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80', 'Rings & Promises')">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=600&q=80" alt="Rings" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 justify-between text-white">
                         <span class="text-xs font-medium">Ring Ceremony</span>
                         <button onclick="event.stopPropagation(); toggleLike(this)" class="hover:text-rose-400 text-sm">
                             <i class="far fa-heart"></i> <span class="like-count text-xs">42</span>
@@ -425,11 +351,10 @@
                     </div>
                 </div>
 
-                <!-- Gallery Item 3 -->
-                <div class="group relative aspect-square rounded-2xl overflow-hidden bg-rose-100 cursor-pointer shadow-sm hover:shadow-xl transition-all" onclick="openLightbox('https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80', 'Pre-Wedding Vibes')">
-                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=600&q=80" alt="Couple Walk" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 justify-between text-white">
-                        <span class="text-xs font-medium">Sunset Walks</span>
+                <div class="group relative aspect-square rounded-2xl overflow-hidden bg-rose-100 cursor-pointer shadow-sm hover:shadow-xl transition-all" onclick="openLightbox('https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80', 'Golden Hour Walks')">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=600&q=80" alt="Sunset" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 justify-between text-white">
+                        <span class="text-xs font-medium">Golden Hours</span>
                         <button onclick="event.stopPropagation(); toggleLike(this)" class="hover:text-rose-400 text-sm">
                             <i class="far fa-heart"></i> <span class="like-count text-xs">18</span>
                         </button>
@@ -439,60 +364,58 @@
         </div>
     </section>
 
-    <!-- Wishes Guestbook Section -->
-    <section id="wishes" class="py-20 px-4 bg-white">
+    <!-- Guestbook Wishes Wall -->
+    <section id="wishes" class="py-24 px-4 bg-cream">
         <div class="max-w-4xl mx-auto">
             <div class="text-center mb-12">
-                <span class="text-xs font-bold uppercase tracking-widest text-rose-500 mb-1 block">Send Your Blessings</span>
-                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-gray-900">Guestbook & Wishes</h2>
-                <div class="w-12 h-0.5 bg-rose-400 mx-auto mt-3"></div>
+                <span class="text-xs font-bold uppercase tracking-widest text-rose-500 mb-2 block">Blessings</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-gray-900">Guestbook Wall</h2>
+                <div class="w-12 h-0.5 bg-rose-400 mx-auto mt-4"></div>
             </div>
 
-            <!-- Form -->
-            <div class="glass-card rounded-3xl p-6 sm:p-8 border border-rose-100 shadow-sm mb-12">
+            <div class="glass-card rounded-3xl p-6 sm:p-8 shadow-sm mb-12">
                 <form id="wishForm" onsubmit="submitWish(event)" class="space-y-4">
                     <div class="grid sm:grid-cols-2 gap-4">
                         <input type="text" id="wishName" required placeholder="Your Name" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-rose-400 text-sm">
                         <input type="text" id="wishRelation" placeholder="Relation (Friend / Family)" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-rose-400 text-sm">
                     </div>
                     <textarea id="wishMsg" required rows="3" placeholder="Write your warm wish for Shayan & Kavya..." class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-rose-400 text-sm"></textarea>
-                    <button type="submit" class="px-6 py-3 rounded-xl bg-deepRose hover:bg-rose-800 text-white font-semibold text-sm shadow-md transition-all">
-                        Post Wish <i class="fas fa-paper-plane ml-1"></i>
+                    <button type="submit" class="px-6 py-3 rounded-xl bg-emeraldDeep hover:bg-emerald-900 text-white font-semibold text-sm shadow-md transition-all">
+                        Post Wish <i class="fas fa-paper-plane ml-1.5"></i>
                     </button>
                 </form>
             </div>
 
-            <!-- Wishes List -->
             <div id="wishesList" class="grid sm:grid-cols-2 gap-4">
-                <div class="glass-card p-5 rounded-2xl border border-rose-100">
+                <div class="glass-card p-5 rounded-2xl">
                     <div class="flex items-center justify-between mb-2">
                         <h4 class="font-bold text-sm text-gray-900">Rahul & Anjali</h4>
-                        <span class="text-[10px] text-rose-500 font-semibold px-2 py-0.5 rounded-full bg-rose-50">College Friends</span>
+                        <span class="text-[10px] text-rose-600 font-semibold px-2 py-0.5 rounded-full bg-rose-50">Friends</span>
                     </div>
-                    <p class="text-xs text-gray-600 italic">"Wishing Shayan and Kavya a lifetime of laughter, growth, and happiness! So excited for Dec 13!"</p>
+                    <p class="text-xs text-gray-600 italic">"Wishing Shayan and Kavya a lifetime of joy and laughter! Excited for Dec 13!"</p>
                 </div>
-                <div class="glass-card p-5 rounded-2xl border border-rose-100">
+                <div class="glass-card p-5 rounded-2xl">
                     <div class="flex items-center justify-between mb-2">
                         <h4 class="font-bold text-sm text-gray-900">Suresh Kumar</h4>
-                        <span class="text-[10px] text-rose-500 font-semibold px-2 py-0.5 rounded-full bg-rose-50">Family Friend</span>
+                        <span class="text-[10px] text-rose-600 font-semibold px-2 py-0.5 rounded-full bg-rose-50">Family</span>
                     </div>
-                    <p class="text-xs text-gray-600 italic">"Hearty congratulations to both families! May God shower endless blessings on your union."</p>
+                    <p class="text-xs text-gray-600 italic">"Warmest congratulations to both families! God bless your union."</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- RSVP Section -->
-    <section id="rsvp" class="py-20 px-4 hero-gradient relative">
+    <section id="rsvp" class="py-24 px-4 hero-bg relative">
         <div class="max-w-xl mx-auto text-center">
-            <span class="text-xs font-bold uppercase tracking-widest text-rose-500 mb-1 block">Are You Coming?</span>
+            <span class="text-xs font-bold uppercase tracking-widest text-rose-500 mb-2 block">Will You Attend?</span>
             <h2 class="font-serif text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Join Our Celebration</h2>
-            <p class="text-xs text-gray-600 mb-8">Please let us know if you can attend before November 30, 2026</p>
+            <p class="text-xs text-gray-600 mb-8">Please confirm your attendance before November 30, 2026</p>
 
             <div class="glass-card p-8 rounded-3xl shadow-xl border border-white">
                 <form id="rsvpForm" onsubmit="handleRSVP(event)" class="space-y-4 text-left">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">Full Name *</label>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Your Full Name *</label>
                         <input type="text" required placeholder="Enter your name" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-rose-400 text-sm">
                     </div>
                     
@@ -514,12 +437,7 @@
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">Song Recommendation</label>
-                        <input type="text" placeholder="Song you want to dance to!" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-rose-400 text-sm">
-                    </div>
-
-                    <button type="submit" class="w-full py-3.5 rounded-xl bg-deepRose hover:bg-rose-800 text-white font-bold text-sm shadow-lg shadow-rose-200 transition-all mt-4">
+                    <button type="submit" class="w-full py-3.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-sm shadow-lg shadow-rose-200 transition-all mt-4">
                         Confirm RSVP
                     </button>
                 </form>
@@ -531,13 +449,13 @@
     <footer class="py-12 bg-gray-900 text-white text-center px-4">
         <div class="max-w-md mx-auto space-y-4">
             <p class="font-serif text-2xl font-bold text-rose-300">Shayan & Kavya</p>
-            <p class="text-xs text-gray-400">#ShayanWedsKavya • December 13, 2026 • Koyilandy, Kerala</p>
+            <p class="text-xs text-gray-400">December 13, 2026 • Koyilandy, Kerala</p>
             <div class="w-8 h-0.5 bg-rose-500/50 mx-auto"></div>
             <p class="text-[11px] text-gray-500">Created with ❤️ for our special day</p>
         </div>
     </footer>
 
-    <!-- Image Lightbox Modal -->
+    <!-- Lightbox Modal -->
     <div id="lightboxModal" class="fixed inset-0 z-50 bg-black/90 hidden items-center justify-center p-4" onclick="closeLightbox()">
         <div class="relative max-w-3xl w-full" onclick="event.stopPropagation()">
             <button onclick="closeLightbox()" class="absolute -top-10 right-0 text-white text-2xl hover:text-rose-400">
@@ -548,12 +466,10 @@
         </div>
     </div>
 
-    <!-- JavaScript Logic -->
+    <!-- Script Logic -->
     <script>
-        // Wedding Date Configuration
         const WEDDING_DATE = new Date("2026-12-13T10:00:00").getTime();
 
-        // Live Countdown Logic
         function updateCountdown() {
             const now = new Date().getTime();
             const diff = WEDDING_DATE - now;
@@ -573,7 +489,6 @@
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
-        // Lightbox Functions
         function openLightbox(src, caption) {
             document.getElementById('lightboxImg').src = src;
             document.getElementById('lightboxCaption').innerText = caption;
@@ -588,7 +503,6 @@
             modal.classList.remove('flex');
         }
 
-        // Like Counter Toggle
         function toggleLike(btn) {
             const icon = btn.querySelector('i');
             const countSpan = btn.querySelector('.like-count');
@@ -605,7 +519,6 @@
             }
         }
 
-        // Wishes Form Submission
         function submitWish(e) {
             e.preventDefault();
             const name = document.getElementById('wishName').value;
@@ -613,44 +526,35 @@
             const msg = document.getElementById('wishMsg').value;
 
             const newCard = document.createElement('div');
-            newCard.className = 'glass-card p-5 rounded-2xl border border-rose-100 animate-fade-in';
+            newCard.className = 'glass-card p-5 rounded-2xl';
             newCard.innerHTML = `
                 <div class="flex items-center justify-between mb-2">
                     <h4 class="font-bold text-sm text-gray-900">${name}</h4>
-                    <span class="text-[10px] text-rose-500 font-semibold px-2 py-0.5 rounded-full bg-rose-50">${rel}</span>
+                    <span class="text-[10px] text-rose-600 font-semibold px-2 py-0.5 rounded-full bg-rose-50">${rel}</span>
                 </div>
                 <p class="text-xs text-gray-600 italic">"${msg}"</p>
             `;
 
             document.getElementById('wishesList').prepend(newCard);
             document.getElementById('wishForm').reset();
-            
-            // Trigger minor confetti
-            confetti({ particleCount: 40, spread: 60, origin: { y: 0.8 } });
+            confetti({ particleCount: 30, spread: 50, origin: { y: 0.8 } });
         }
 
-        // RSVP Handler with Canvas Confetti Explosion
         function handleRSVP(e) {
             e.preventDefault();
-            confetti({
-                particleCount: 120,
-                spread: 80,
-                origin: { y: 0.6 }
-            });
-            alert("Thank you for your RSVP! We can't wait to see you in Koyilandy on Dec 13, 2026!");
+            confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+            alert("Thank you for your RSVP! See you in Koyilandy on Dec 13, 2026!");
             document.getElementById('rsvpForm').reset();
         }
 
-        // Google Calendar Export
         function openGoogleCalendar() {
             const title = encodeURIComponent("Shayan & Kavya Wedding");
-            const details = encodeURIComponent("Wedding Ceremony & Reception of Shayan Prakash and Kavya Das KT in Koyilandy, Kerala.");
+            const details = encodeURIComponent("Wedding Ceremony of Shayan Prakash and Kavya Das KT in Koyilandy, Kerala.");
             const location = encodeURIComponent("Koyilandy, Kerala, India");
             const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20261213T043000Z/20261213T123000Z&details=${details}&location=${location}`;
             window.open(url, '_blank');
         }
 
-        // iCal / Outlook Export
         function downloadICS() {
             const icsData = 
 `BEGIN:VCALENDAR
@@ -658,7 +562,7 @@ VERSION:2.0
 PRODID:-//Wedding Invitation//Shayan and Kavya//EN
 BEGIN:VEVENT
 SUMMARY:Shayan Prakash & Kavya Das KT Wedding
-DESCRIPTION:Wedding Ceremony & Reception in Koyilandy, Kerala
+DESCRIPTION:Wedding Ceremony in Koyilandy, Kerala
 LOCATION:Koyilandy, Kerala, India
 DTSTART:20261213T100000
 DTEND:20261213T180000
@@ -674,9 +578,7 @@ END:VCALENDAR`;
             document.body.removeChild(link);
         }
 
-        // Web Audio Romantic Synth Player Toggle
-        let audioCtx, oscillator, isPlaying = false;
-
+        let audioCtx, isPlaying = false;
         function toggleAudio() {
             const musicIcon = document.getElementById('musicIcon');
             const soundWave = document.getElementById('soundWave');
@@ -684,7 +586,7 @@ END:VCALENDAR`;
             if (!isPlaying) {
                 try {
                     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                    const notes = [261.63, 329.63, 392.00, 523.25]; // C, E, G, C soft romantic arpeggio
+                    const notes = [261.63, 329.63, 392.00, 523.25];
                     let noteIdx = 0;
 
                     function playNextNote() {
@@ -693,9 +595,8 @@ END:VCALENDAR`;
                         const gain = audioCtx.createGain();
                         osc.type = 'sine';
                         osc.frequency.setValueAtTime(notes[noteIdx], audioCtx.currentTime);
-                        gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                        gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
                         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
-                        
                         osc.connect(gain);
                         gain.connect(audioCtx.destination);
                         osc.start();
@@ -707,15 +608,13 @@ END:VCALENDAR`;
 
                     isPlaying = true;
                     playNextNote();
-                    musicIcon.className = "fas fa-volume-up text-lg";
+                    musicIcon.className = "fas fa-volume-up text-xl";
                     soundWave.classList.remove('hidden');
-                } catch(e) {
-                    console.log("Audio play blocked by browser policy");
-                }
+                } catch(e) {}
             } else {
                 isPlaying = false;
                 if (audioCtx) audioCtx.close();
-                musicIcon.className = "fas fa-music text-lg";
+                musicIcon.className = "fas fa-music text-xl";
                 soundWave.classList.add('hidden');
             }
         }
