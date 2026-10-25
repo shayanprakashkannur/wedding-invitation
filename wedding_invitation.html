@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex & Sam - We're Getting Married!</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti for RSVP -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        blush: '#FFF0F3',
+                        rose: '#FFB3C1',
+                        deeprose: '#FF4D6D',
+                        sage: '#E2ECE9',
+                        darksage: '#5B7065',
+                        gold: '#D4AF37',
+                        cream: '#FFFDF9'
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Outfit', 'sans-serif'],
+                        hand: ['Caveat', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Keyframe Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.08); opacity: 1; }
+        }
+        @keyframes floatHeart {
+            0% { transform: translateY(0) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+        }
+        
+        .animate-float { animation: float 5s ease-in-out infinite; }
+        .animate-pulse-slow { animation: pulseGlow 3s ease-in-out infinite; }
+        
+        /* Floating background heart elements */
+        .bg-heart {
+            position: absolute;
+            pointer-events: none;
+            color: rgba(255, 179, 193, 0.4);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Glassmorphism styling */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 179, 193, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-cream text-gray-800 font-sans relative overflow-x-hidden">
+
+    <!-- Background Music Toggle -->
+    <div class="fixed top-5 right-5 z-50">
+        <button id="musicToggle" onclick="toggleAudio()" class="glass-card shadow-lg p-3 rounded-full flex items-center justify-center text-deeprose hover:scale-110 transition-transform duration-300 group border border-rose/50">
+            <i id="musicIcon" class="fa-solid fa-music text-xl"></i>
+            <span class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-500 ease-in-out text-xs font-semibold ml-0 group-hover:ml-2 text-gray-700">Play Romantic Music</span>
+        </button>
+        <!-- Replace audio source with your preferred royalty-free track -->
+        <audio id="bgMusic" loop preload="none">
+            <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-wedding-115039.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <!-- GitHub Pages Quick Instructions Drawer Banner -->
+    <div id="githubBanner" class="bg-slate-900 text-white text-xs py-2 px-4 sticky top-0 z-50 flex items-center justify-between">
+        <div class="flex items-center space-x-2 overflow-hidden">
+            <span class="bg-rose text-slate-900 font-bold px-2 py-0.5 rounded-full text-[10px]">GitHub Pages Ready</span>
+            <p class="truncate">Host this wedding site for FREE on GitHub! Click "How to Customize" for instructions.</p>
+        </div>
+        <div class="flex items-center space-x-3 shrink-0">
+            <button onclick="toggleInstructions()" class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded text-white font-medium transition">
+                <i class="fa-solid fa-code mr-1"></i> How to Deploy
+            </button>
+            <button onclick="document.getElementById('githubBanner').remove()" class="text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Instructions Modal Drawer -->
+    <div id="instructionsModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="glass-card bg-white max-w-2xl w-full rounded-2xl p-6 relative max-h-[85vh] overflow-y-auto shadow-2xl">
+            <button onclick="toggleInstructions()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h3 class="font-serif text-2xl font-bold text-deeprose mb-4 flex items-center">
+                <i class="fa-brands fa-github mr-2 text-slate-800"></i> Free GitHub Pages Hosting & Customization Guide
+            </h3>
+            
+            <div class="space-y-4 text-sm text-gray-700">
+                <div class="bg-blush p-4 rounded-xl border border-rose/30">
+                    <h4 class="font-bold text-gray-800 mb-1">1. How to Host on GitHub Pages (100% Free):</h4>
+                    <ol class="list-decimal list-inside space-y-1">
+                        <li>Create a free account on <a href="https://github.com" target="_blank" class="text-deeprose underline font-semibold">GitHub.com</a>.</li>
+                        <li>Create a new public repository (e.g., named <code class="bg-white px-1 rounded">wedding-invitation</code>).</li>
+                        <li>Upload this file into your repository and name it strictly <code class="bg-white px-1 rounded">index.html</code>.</li>
+                        <li>Go to <b>Settings &gt; Pages</b>, select <code class="bg-white px-1 rounded">main</code> branch, and click <b>Save</b>.</li>
+                        <li>Your site will be live at <code class="bg-white px-1 rounded">https://yourusername.github.io/wedding-invitation/</code>!</li>
+                    </ol>
+                </div>
+
+                <div class="bg-sage/40 p-4 rounded-xl border border-darksage/20">
+                    <h4 class="font-bold text-gray-800 mb-1">2. How to Swap Photos with Real / Cartoon Photos:</h4>
+                    <p class="mb-2">In the code, search for <code class="bg-white px-1 rounded">&lt;img src="..."&gt;</code> or cartoon SVG cards, and replace the placeholder URLs with:</p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Your own uploaded photos inside your repository (e.g. <code class="bg-white px-1 rounded">img/couple1.jpg</code>).</li>
+                        <li>AI-generated cartoon avatars from tools like <b>Midjourney</b>, <b>ToonMe</b>, or <b>ChatGPT DALL-E</b>.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-amber-50 p-4 rounded-xl border border-amber-200">
+                    <h4 class="font-bold text-gray-800 mb-1">3. Receive RSVP Responses Directly:</h4>
+                    <p>By default, RSVPs are saved in the visitor's browser local storage. To get emails directly:</p>
+                    <ul class="list-disc list-inside space-y-1">
+                        <li>Sign up on <a href="https://formspree.io" target="_blank" class="text-deeprose underline">Formspree.io</a> or create a <a href="https://forms.google.com" target="_blank" class="text-deeprose underline">Google Form</a>.</li>
+                        <li>Replace the form <code class="bg-white px-1 rounded">action</code> URL in the code with your Formspree endpoint.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <button onclick="toggleInstructions()" class="mt-6 w-full py-3 bg-deeprose text-white font-bold rounded-xl shadow-md hover:bg-rose hover:text-slate-900 transition">
+                Got It! Let's Preview
+            </button>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <header class="relative min-h-screen flex flex-col justify-center items-center text-center px-4 pt-12 pb-16 overflow-hidden bg-gradient-to-b from-blush via-cream to-white">
+        <!-- Floating Animated Hearts in Background -->
+        <div class="bg-heart text-4xl top-10 left-10 animate-float" style="animation-delay: 0s;">💖</div>
+        <div class="bg-heart text-3xl top-1/4 right-12 animate-float" style="animation-delay: 1.5s;">✨</div>
+        <div class="bg-heart text-2xl bottom-20 left-1/5 animate-float" style="animation-delay: 3s;">🌸</div>
+        <div class="bg-heart text-4xl bottom-32 right-1/4 animate-float" style="animation-delay: 2s;">💕</div>
+
+        <div class="relative z-10 max-w-4xl mx-auto space-y-6">
+            <span class="font-hand text-3xl md:text-4xl text-deeprose font-bold block animate-bounce">
+                Save the Date!
+            </span>
+            <h1 class="font-serif text-5xl md:text-7xl font-bold text-gray-900 tracking-wide">
+                We're Getting Married!
+            </h1>
+            
+            <!-- Cartoon Couple Illustration (Custom SVG Art) -->
+            <div class="my-8 relative inline-block animate-float">
+                <div class="w-64 h-64 md:w-80 md:h-80 mx-auto rounded-full bg-gradient-to-tr from-rose to-blush p-3 shadow-2xl border-4 border-white">
+                    <div class="w-full h-full rounded-full bg-white flex items-center justify-center overflow-hidden relative">
+                        <!-- Cartoon SVG Couple Illustration -->
+                        <svg viewBox="0 0 200 200" class="w-full h-full">
+                            <defs>
+                                <linearGradient id="skin" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#FFDFC4" />
+                                    <stop offset="100%" stop-color="#F0C8A0" />
+                                </linearGradient>
+                                <linearGradient id="hairGroom" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#4A3728" />
+                                    <stop offset="100%" stop-color="#2C1D11" />
+                                </linearGradient>
+                                <linearGradient id="hairBride" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#D4A373" />
+                                    <stop offset="100%" stop-color="#A9845A" />
+                                </linearGradient>
+                            </defs>
+                            <!-- Background Glow -->
+                            <circle cx="100" cy="100" r="95" fill="#FFF0F3" />
+                            
+                            <!-- Groom (Left) -->
+                            <path d="M 45 190 C 45 130 65 120 75 120 C 85 120 105 130 105 190" fill="#334155" />
+                            <circle cx="75" cy="85" r="28" fill="url(#skin)" />
+                            <!-- Groom Hair -->
+                            <path d="M 50 80 Q 75 50 100 80 Q 95 60 75 60 Q 55 60 50 80 Z" fill="url(#hairGroom)" />
+                            <!-- Groom Bowtie -->
+                            <polygon points="70,122 80,122 75,126" fill="#FF4D6D" />
+                            <circle cx="75" cy="122" r="3" fill="#FF4D6D" />
+
+                            <!-- Bride (Right) -->
+                            <path d="M 95 190 C 95 130 125 120 135 120 C 145 120 175 130 175 190" fill="#FFF" stroke="#FFB3C1" stroke-width="2" />
+                            <!-- Bride Long Hair Back -->
+                            <circle cx="135" cy="95" r="35" fill="url(#hairBride)" />
+                            <circle cx="135" cy="85" r="28" fill="url(#skin)" />
+                            <!-- Bride Hair Front -->
+                            <path d="M 110 80 C 120 60 150 60 160 80 C 150 70 120 70 110 80 Z" fill="url(#hairBride)" />
+                            <!-- Flower Crown -->
+                            <circle cx="120" cy="65" r="5" fill="#FF4D6D" />
+                            <circle cx="135" cy="60" r="6" fill="#FFB3C1" />
+                            <circle cx="150" cy="65" r="5" fill="#D4AF37" />
+
+                            <!-- Cute Eyes & Blushes -->
+                            <!-- Groom Eyes -->
+                            <circle cx="68" cy="85" r="3" fill="#1E293B" />
+                            <circle cx="82" cy="85" r="3" fill="#1E293B" />
+                            <path d="M 70 93 Q 75 97 80 93" fill="none" stroke="#1E293B" stroke-width="2" stroke-linecap="round" />
+                            <ellipse cx="63" cy="90" rx="4" ry="2" fill="#FF8FA3" opacity="0.6" />
+                            <ellipse cx="87" cy="90" rx="4" ry="2" fill="#FF8FA3" opacity="0.6" />
+
+                            <!-- Bride Eyes -->
+                            <circle cx="125" cy="85" r="3" fill="#1E293B" />
+                            <circle cx="139" cy="85" r="3" fill="#1E293B" />
+                            <path d="M 127 93 Q 132 97 137 93" fill="none" stroke="#1E293B" stroke-width="2" stroke-linecap="round" />
+                            <ellipse cx="120" cy="90" rx="4" ry="2" fill="#FF8FA3" opacity="0.6" />
+                            <ellipse cx="144" cy="90" rx="4" ry="2" fill="#FF8FA3" opacity="0.6" />
+
+                            <!-- Animated Floating Heart between them -->
+                            <path d="M 100 60 C 100 55 92 50 88 56 C 84 62 100 75 100 75 C 100 75 116 62 112 56 C 108 50 100 55 100 60 Z" fill="#FF4D6D">
+                                <animateTransform attributeName="transform" type="translate" values="0,0; 0,-10; 0,0" dur="2s" repeatCount="indefinite"/>
+                            </path>
+                        </svg>
+                    </div>
+                </div>
+                <!-- Romantic Decorative Ring Badge -->
+                <div class="absolute -bottom-2 -right-2 bg-white text-deeprose font-serif px-4 py-1.5 rounded-full shadow-lg border border-rose/40 font-bold text-sm flex items-center space-x-1">
+                    <i class="fa-solid fa-heart text-xs"></i>
+                    <span>Alex &amp; Sam</span>
+                </div>
+            </div>
+
+            <p class="font-serif text-2xl md:text-3xl text-gray-700 italic">
+                "Two hearts, one lifelong adventure."
+            </p>
+
+            <div class="pt-2 text-gray-600 font-medium tracking-wide flex items-center justify-center space-x-2">
+                <i class="fa-regular fa-calendar-check text-deeprose"></i>
+                <span>SATURDAY, OCTOBER 16, 2027 • NAPA VALLEY, CA</span>
+            </div>
+
+            <!-- Countdown Timer -->
+            <div class="pt-6">
+                <p class="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-3">Counting Down To The Big Day</p>
+                <div class="grid grid-cols-4 gap-2 md:gap-4 max-w-lg mx-auto">
+                    <div class="glass-card rounded-2xl p-3 shadow-md border border-rose/30">
+                        <span id="days" class="block font-serif text-3xl md:text-4xl font-bold text-deeprose">00</span>
+                        <span class="text-xs text-gray-500 uppercase font-semibold">Days</span>
+                    </div>
+                    <div class="glass-card rounded-2xl p-3 shadow-md border border-rose/30">
+                        <span id="hours" class="block font-serif text-3xl md:text-4xl font-bold text-deeprose">00</span>
+                        <span class="text-xs text-gray-500 uppercase font-semibold">Hours</span>
+                    </div>
+                    <div class="glass-card rounded-2xl p-3 shadow-md border border-rose/30">
+                        <span id="minutes" class="block font-serif text-3xl md:text-4xl font-bold text-deeprose">00</span>
+                        <span class="text-xs text-gray-500 uppercase font-semibold">Mins</span>
+                    </div>
+                    <div class="glass-card rounded-2xl p-3 shadow-md border border-rose/30">
+                        <span id="seconds" class="block font-serif text-3xl md:text-4xl font-bold text-deeprose">00</span>
+                        <span class="text-xs text-gray-500 uppercase font-semibold">Secs</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
+                <a href="#rsvp" class="w-full sm:w-auto px-8 py-4 bg-deeprose text-white font-semibold rounded-full shadow-lg hover:bg-rose hover:text-slate-900 transition-all duration-300 transform hover:-translate-y-1">
+                    RSVP Now <i class="fa-solid fa-heart ml-2"></i>
+                </a>
+                <a href="#details" class="w-full sm:w-auto px-8 py-4 bg-white text-gray-700 border border-gray-300 font-semibold rounded-full shadow-sm hover:border-deeprose hover:text-deeprose transition-all duration-300">
+                    Event Details
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- OUR LOVE STORY / TIMELINE -->
+    <section class="py-20 px-4 bg-white relative">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="font-hand text-3xl text-deeprose font-bold block">Our Journey</span>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-gray-900">How We Met &amp; Fell in Love</h2>
+                <div class="w-24 h-1 bg-rose mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="relative border-l-2 border-rose/50 ml-4 md:ml-1/2 space-y-12 md:-translate-x-1/2">
+                
+                <!-- Story Card 1 -->
+                <div class="relative pl-8 md:pl-0 flex flex-col md:flex-row items-center group">
+                    <div class="absolute -left-[17px] bg-deeprose text-white w-9 h-9 rounded-full flex items-center justify-center shadow-lg group-hover:scale-125 transition-transform">
+                        <i class="fa-solid fa-coffee text-sm"></i>
+                    </div>
+                    <div class="md:w-1/2 md:pr-12 md:text-right">
+                        <span class="font-hand text-2xl text-deeprose font-bold">Summer 2021</span>
+                        <h3 class="font-serif text-2xl font-bold text-gray-800">The First Coffee Date</h3>
+                        <p class="text-gray-600 mt-2 text-sm leading-relaxed">
+                            It started with a simple "Hi" over a cup of mocha. Two hours turned into five, and we knew something magical was brewing.
+                        </p>
+                    </div>
+                    <div class="hidden md:block md:w-1/2 pl-12">
+                        <div class="w-48 h-32 rounded-2xl overflow-hidden shadow-md glass-card p-2 transform rotate-2 hover:rotate-0 transition-transform">
+                            <!-- SVG Art Placeholder -->
+                            <div class="w-full h-full bg-blush rounded-xl flex items-center justify-center text-4xl">☕✨</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Story Card 2 -->
+                <div class="relative pl-8 md:pl-0 flex flex-col md:flex-row items-center group">
+                    <div class="absolute -left-[17px] bg-deeprose text-white w-9 h-9 rounded-full flex items-center justify-center shadow-lg group-hover:scale-125 transition-transform">
+                        <i class="fa-solid fa-plane text-sm"></i>
+                    </div>
+                    <div class="hidden md:block md:w-1/2 pr-12 text-right">
+                        <div class="w-48 h-32 ml-auto rounded-2xl overflow-hidden shadow-md glass-card p-2 transform -rotate-2 hover:rotate-0 transition-transform">
+                            <div class="w-full h-full bg-sage rounded-xl flex items-center justify-center text-4xl">🏖️🎒</div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 md:pl-12">
+                        <span class="font-hand text-2xl text-deeprose font-bold">Autumn 2023</span>
+                        <h3 class="font-serif text-2xl font-bold text-gray-800">First Trip Together</h3>
+                        <p class="text-gray-600 mt-2 text-sm leading-relaxed">
+                            Exploring mountains, getting lost in coastal cities, and realizing we make the absolute best travel team ever.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Story Card 3 -->
+                <div class="relative pl-8 md:pl-0 flex flex-col md:flex-row items-center group">
+                    <div class="absolute -left-[17px] bg-deeprose text-white w-9 h-9 rounded-full flex items-center justify-center shadow-lg group-hover:scale-125 transition-transform">
+                        <i class="fa-solid fa-ring text-sm"></i>
+                    </div>
+                    <div class="md:w-1/2 md:pr-12 md:text-right">
+                        <span class="font-hand text-2xl text-deeprose font-bold">Winter 2025</span>
+                        <h3 class="font-serif text-2xl font-bold text-gray-800">He Said "Yes!"</h3>
+                        <p class="text-gray-600 mt-2 text-sm leading-relaxed">
+                            Under a starry night sky with gentle waves crashing in the background, Alex popped the question and Sam said YES!
+                        </p>
+                    </div>
+                    <div class="hidden md:block md:w-1/2 pl-12">
+                        <div class="w-48 h-32 rounded-2xl overflow-hidden shadow-md glass-card p-2 transform rotate-3 hover:rotate-0 transition-transform">
+                            <div class="w-full h-full bg-blush rounded-xl flex items-center justify-center text-4xl">💍🎆</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CARTOON PHOTO GALLERY WITH LIGHTBOX -->
+    <section class="py-20 px-4 bg-blush/50 relative">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="font-hand text-3xl text-deeprose font-bold block">Moments &amp; Memories</span>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-gray-900">Cartoon Photo Gallery</h2>
+                <p class="text-gray-600 max-w-lg mx-auto mt-2 text-sm">Click any cartoon portrait to open the high-res view!</p>
+                <div class="w-24 h-1 bg-rose mx-auto mt-4 rounded-full"></div>
+
+                <!-- Gallery Category Filters -->
+                <div class="flex justify-center space-x-2 mt-8">
+                    <button onclick="filterGallery('all')" class="gallery-filter-btn active px-5 py-2 rounded-full text-xs font-semibold bg-deeprose text-white shadow-md transition">All</button>
+                    <button onclick="filterGallery('cartoon')" class="gallery-filter-btn px-5 py-2 rounded-full text-xs font-semibold bg-white text-gray-700 hover:bg-rose/30 transition">Cartoons</button>
+                    <button onclick="filterGallery('moments')" class="gallery-filter-btn px-5 py-2 rounded-full text-xs font-semibold bg-white text-gray-700 hover:bg-rose/30 transition">Fun Moments</button>
+                </div>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="galleryGrid">
+                
+                <!-- Gallery Item 1 -->
+                <div class="gallery-item cartoon glass-card p-3 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 group cursor-pointer" onclick="openLightbox('The Proposal Illustration', 'Our romantic moment under the stars reimagined in cute anime style.', 'https://placehold.co/800x600/FFB3C1/334155?text=Cartoon+Proposal+Illustration')">
+                    <div class="relative h-64 rounded-xl overflow-hidden bg-white">
+                        <img src="https://placehold.co/600x500/FFB3C1/334155?text=Cartoon+Proposal" alt="Cartoon Proposal" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-2xl">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i>
+                        </div>
+                    </div>
+                    <div class="p-3 text-center">
+                        <h4 class="font-serif font-bold text-gray-800">The Proposal</h4>
+                        <p class="text-xs text-gray-500">Illustrated Magic</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 2 -->
+                <div class="gallery-item moments glass-card p-3 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 group cursor-pointer" onclick="openLightbox('Beach Day Fun', 'Catching waves and sunshine together.', 'https://placehold.co/800x600/E2ECE9/5B7065?text=Cartoon+Beach+Date')">
+                    <div class="relative h-64 rounded-xl overflow-hidden bg-white">
+                        <img src="https://placehold.co/600x500/E2ECE9/5B7065?text=Cartoon+Beach+Date" alt="Beach Day" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-2xl">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i>
+                        </div>
+                    </div>
+                    <div class="p-3 text-center">
+                        <h4 class="font-serif font-bold text-gray-800">Beach Vacation</h4>
+                        <p class="text-xs text-gray-500">Sunny Smiles</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 3 -->
+                <div class="gallery-item cartoon glass-card p-3 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 group cursor-pointer" onclick="openLightbox('Chibi Wedding Avatar', 'Our cute wedding attire cartoon avatars!', 'https://placehold.co/800x600/FFF0F3/FF4D6D?text=Chibi+Wedding+Avatar')">
+                    <div class="relative h-64 rounded-xl overflow-hidden bg-white">
+                        <img src="https://placehold.co/600x500/FFF0F3/FF4D6D?text=Chibi+Wedding+Avatar" alt="Chibi Wedding Avatar" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-2xl">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i>
+                        </div>
+                    </div>
+                    <div class="p-3 text-center">
+                        <h4 class="font-serif font-bold text-gray-800">Wedding Avatars</h4>
+                        <p class="text-xs text-gray-500">Digital Artwork</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 4 -->
+                <div class="gallery-item moments glass-card p-3 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 group cursor-pointer" onclick="openLightbox('Cozy Coffee Mornings', 'Lazy Sunday breakfasts made with love.', 'https://placehold.co/800x600/FFE5EC/FF4D6D?text=Coffee+Mornings')">
+                    <div class="relative h-64 rounded-xl overflow-hidden bg-white">
+                        <img src="https://placehold.co/600x500/FFE5EC/FF4D6D?text=Coffee+Mornings" alt="Coffee Date" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-2xl">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i>
+                        </div>
+                    </div>
+                    <div class="p-3 text-center">
+                        <h4 class="font-serif font-bold text-gray-800">Coffee &amp; Laughs</h4>
+                        <p class="text-xs text-gray-500">Everyday Joy</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 5 -->
+                <div class="gallery-item cartoon glass-card p-3 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 group cursor-pointer" onclick="openLightbox('Comic Strip Love Story', 'A custom 4-panel comic of our funniest moments.', 'https://placehold.co/800x600/F0E6FF/7C3AED?text=Comic+Strip+Love+Story')">
+                    <div class="relative h-64 rounded-xl overflow-hidden bg-white">
+                        <img src="https://placehold.co/600x500/F0E6FF/7C3AED?text=Comic+Strip+Love+Story" alt="Comic Strip" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-2xl">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i>
+                        </div>
+                    </div>
+                    <div class="p-3 text-center">
+                        <h4 class="font-serif font-bold text-gray-800">Our Mini Comic</h4>
+                        <p class="text-xs text-gray-500">Custom Art</p>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 6 -->
+                <div class="gallery-item moments glass-card p-3 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 group cursor-pointer" onclick="openLightbox('Road Trip Adventures', 'Singing loud to radio classics.', 'https://placehold.co/800x600/FEF3C7/D97706?text=Roadtrip+Cartoon')">
+                    <div class="relative h-64 rounded-xl overflow-hidden bg-white">
+                        <img src="https://placehold.co/600x500/FEF3C7/D97706?text=Roadtrip+Cartoon" alt="Road trip" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-2xl">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i>
+                        </div>
+                    </div>
+                    <div class="p-3 text-center">
+                        <h4 class="font-serif font-bold text-gray-800">Road Trip Vibes</h4>
+                        <p class="text-xs text-gray-500">Adventure</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="relative max-w-3xl w-full bg-white rounded-2xl overflow-hidden shadow-2xl">
+            <button onclick="closeLightbox()" class="absolute top-3 right-3 z-10 w-10 h-10 bg-black/50 hover:bg-black text-white rounded-full flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="p-2">
+                <img id="lightboxImg" src="" alt="" class="w-full h-auto max-h-[70vh] object-contain rounded-xl">
+            </div>
+            <div class="p-6 bg-white text-center">
+                <h3 id="lightboxTitle" class="font-serif text-2xl font-bold text-gray-800"></h3>
+                <p id="lightboxDesc" class="text-sm text-gray-600 mt-1"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- EVENT SCHEDULE & MAP DETAILS -->
+    <section id="details" class="py-20 px-4 bg-white">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="font-hand text-3xl text-deeprose font-bold block">When &amp; Where</span>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-gray-900">Wedding Schedule &amp; Venue</h2>
+                <div class="w-24 h-1 bg-rose mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <!-- Schedule Cards -->
+                <div class="space-y-6">
+                    <div class="glass-card p-6 rounded-2xl border border-rose/30 shadow-md flex items-start space-x-4">
+                        <div class="p-4 bg-blush text-deeprose rounded-2xl text-2xl shrink-0">
+                            <i class="fa-solid fa-church"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-deeprose tracking-widest uppercase">4:00 PM • Ceremony</span>
+                            <h3 class="font-serif text-xl font-bold text-gray-800">The Wedding Vows</h3>
+                            <p class="text-sm text-gray-600 mt-1">St. Helena Sunset Garden, Napa Valley, CA</p>
+                            <p class="text-xs text-gray-500 mt-2">Join us as we exchange vows under the floral arbor.</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl border border-rose/30 shadow-md flex items-start space-x-4">
+                        <div class="p-4 bg-sage text-darksage rounded-2xl text-2xl shrink-0">
+                            <i class="fa-solid fa-wine-glass"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-darksage tracking-widest uppercase">5:30 PM • Cocktail Hour</span>
+                            <h3 class="font-serif text-xl font-bold text-gray-800">Drinks &amp; Appetizers</h3>
+                            <p class="text-sm text-gray-600 mt-1">Valley View Terrace</p>
+                            <p class="text-xs text-gray-500 mt-2">Enjoy signature cocktails, live acoustic music, and lawn games.</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl border border-rose/30 shadow-md flex items-start space-x-4">
+                        <div class="p-4 bg-amber-100 text-amber-600 rounded-2xl text-2xl shrink-0">
+                            <i class="fa-solid fa-champagne-glasses"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-amber-600 tracking-widest uppercase">7:00 PM • Dinner &amp; Dancing</span>
+                            <h3 class="font-serif text-xl font-bold text-gray-800">Grand Reception</h3>
+                            <p class="text-sm text-gray-600 mt-1">Grand Ballroom</p>
+                            <p class="text-xs text-gray-500 mt-2">Dinner, speeches, cake cutting, and dancing until midnight!</p>
+                        </div>
+                    </div>
+
+                    <!-- Add to Calendar Buttons -->
+                    <div class="pt-4 flex flex-wrap gap-3">
+                        <button onclick="downloadICS()" class="flex-1 py-3 px-4 bg-slate-800 text-white text-xs font-bold rounded-xl shadow hover:bg-slate-700 transition flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-calendar-plus"></i>
+                            <span>Download iCal / .ics</span>
+                        </button>
+                        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Alex+%26+Sam+Wedding&dates=20271016T160000Z/20271017T000000Z&details=We+are+excited+to+celebrate+with+you!&location=Napa+Valley,+CA" target="_blank" class="flex-1 py-3 px-4 bg-deeprose text-white text-xs font-bold rounded-xl shadow hover:bg-rose hover:text-slate-900 transition flex items-center justify-center space-x-2">
+                            <i class="fa-brands fa-google"></i>
+                            <span>Google Calendar</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Venue Map Card -->
+                <div class="glass-card p-6 rounded-2xl border border-rose/30 shadow-md h-full flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-serif text-2xl font-bold text-gray-800 mb-2">Venue &amp; Location</h3>
+                        <p class="text-sm text-gray-600 mb-4">
+                            St. Helena Sunset Garden<br>
+                            1234 Vineyard Lane, Napa Valley, CA 94574
+                        </p>
+                        
+                        <!-- Map Placeholder Widget -->
+                        <div class="w-full h-64 bg-sage/50 rounded-xl overflow-hidden relative border border-darksage/20 flex flex-col items-center justify-center text-center p-4">
+                            <i class="fa-solid fa-map-location-dot text-5xl text-darksage mb-2 animate-bounce"></i>
+                            <span class="font-serif font-bold text-gray-800 text-lg">St. Helena Sunset Garden</span>
+                            <p class="text-xs text-gray-600 mt-1">Napa Valley, California</p>
+                            
+                            <a href="https://maps.google.com/?q=Napa+Valley+CA" target="_blank" class="mt-4 px-4 py-2 bg-white text-darksage text-xs font-bold rounded-lg shadow hover:bg-darksage hover:text-white transition">
+                                <i class="fa-solid fa-directions mr-1"></i> Open in Google Maps
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-gray-100 text-xs text-gray-500 space-y-1">
+                        <p><strong>Dress Code:</strong> Semi-Formal / Garden Romantic</p>
+                        <p><strong>Parking:</strong> Free valet parking available at the main entrance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE RSVP FORM -->
+    <section id="rsvp" class="py-20 px-4 bg-gradient-to-b from-cream to-blush relative">
+        <div class="max-w-2xl mx-auto">
+            <div class="text-center mb-10">
+                <span class="font-hand text-3xl text-deeprose font-bold block">Are You Coming?</span>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-gray-900">Kindly RSVP</h2>
+                <p class="text-sm text-gray-600 mt-2">Please respond by September 15, 2027</p>
+                <div class="w-24 h-1 bg-rose mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Form Card -->
+            <div class="glass-card p-8 rounded-3xl shadow-xl border border-rose/40 relative">
+                
+                <!-- RSVP Form -->
+                <form id="rsvpForm" onsubmit="handleRSVP(event)" class="space-y-6">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Your Full Name *</label>
+                        <input type="text" id="guestName" required placeholder="e.g. Jane Doe" class="w-full px-4 py-3 rounded-xl border border-rose/40 focus:outline-none focus:ring-2 focus:ring-deeprose bg-white/80">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Will You Attend? *</label>
+                            <select id="attending" required class="w-full px-4 py-3 rounded-xl border border-rose/40 focus:outline-none focus:ring-2 focus:ring-deeprose bg-white/80">
+                                <option value="yes">Joyfully Accepts! 🎉</option>
+                                <option value="no">Regretfully Declines 💔</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Number of Guests *</label>
+                            <select id="guestCount" class="w-full px-4 py-3 rounded-xl border border-rose/40 focus:outline-none focus:ring-2 focus:ring-deeprose bg-white/80">
+                                <option value="1">1 Person</option>
+                                <option value="2">2 Persons (+1)</option>
+                                <option value="3">3 Persons</option>
+                                <option value="4">4 Persons</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Dietary Restrictions / Preferences</label>
+                        <input type="text" id="dietary" placeholder="e.g. Vegetarian, Gluten-Free, Allergies..." class="w-full px-4 py-3 rounded-xl border border-rose/40 focus:outline-none focus:ring-2 focus:ring-deeprose bg-white/80">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">Warm Wishes / Song Request</label>
+                        <textarea id="wishes" rows="3" placeholder="Leave a sweet message for Alex & Sam..." class="w-full px-4 py-3 rounded-xl border border-rose/40 focus:outline-none focus:ring-2 focus:ring-deeprose bg-white/80"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 bg-deeprose text-white font-bold text-lg rounded-xl shadow-lg hover:bg-rose hover:text-slate-900 transition duration-300 transform hover:-translate-y-0.5">
+                        Send RSVP Response <i class="fa-solid fa-paper-plane ml-2"></i>
+                    </button>
+                </form>
+
+                <!-- Success Confirmation Message (Initially Hidden) -->
+                <div id="rsvpSuccess" class="hidden text-center py-8 space-y-4">
+                    <div class="w-20 h-20 bg-rose/30 text-deeprose rounded-full flex items-center justify-center mx-auto text-4xl animate-bounce">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+                    <h3 class="font-serif text-3xl font-bold text-gray-800">Thank You!</h3>
+                    <p id="successText" class="text-gray-600 max-w-md mx-auto"></p>
+                    <button onclick="resetRSVP()" class="px-6 py-2 bg-gray-200 text-gray-700 text-xs font-bold rounded-lg hover:bg-gray-300 transition">
+                        Submit Another Response
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 bg-white text-center border-t border-rose/20 relative">
+        <div class="max-w-4xl mx-auto px-4 space-y-4">
+            <h2 class="font-serif text-3xl font-bold text-deeprose">Alex &amp; Sam</h2>
+            <p class="font-hand text-2xl text-gray-600">We can't wait to celebrate our special day with you!</p>
+            <p class="text-xs text-gray-400 pt-4">Designed with ❤️ for Free GitHub Pages Hosting</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT INTERACTIVE LOGIC -->
+    <script>
+        // --- 1. COUNTDOWN TIMER LOGIC ---
+        // Set wedding date: October 16, 2027
+        const weddingDate = new Date("October 16, 2027 16:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const difference = weddingDate - now;
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById("days").innerText = days < 10 ? '0' + days : days;
+                document.getElementById("hours").innerText = hours < 10 ? '0' + hours : hours;
+                document.getElementById("minutes").innerText = minutes < 10 ? '0' + minutes : minutes;
+                document.getElementById("seconds").innerText = seconds < 10 ? '0' + seconds : seconds;
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // --- 2. BACKGROUND MUSIC TOGGLE ---
+        let isPlaying = false;
+        const bgMusic = document.getElementById("bgMusic");
+        const musicIcon = document.getElementById("musicIcon");
+
+        function toggleAudio() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicIcon.className = "fa-solid fa-music text-xl";
+            } else {
+                bgMusic.play().catch(e => console.log("Audio autoplay restricted: ", e));
+                musicIcon.className = "fa-solid fa-pause text-xl";
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // --- 3. GALLERY FILTERS & LIGHTBOX ---
+        function filterGallery(category) {
+            const items = document.querySelectorAll('.gallery-item');
+            const filterBtns = document.querySelectorAll('.gallery-filter-btn');
+
+            filterBtns.forEach(btn => {
+                btn.classList.remove('bg-deeprose', 'text-white', 'active');
+                btn.classList.add('bg-white', 'text-gray-700');
+            });
+
+            event.target.classList.remove('bg-white', 'text-gray-700');
+            event.target.classList.add('bg-deeprose', 'text-white', 'active');
+
+            items.forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function openLightbox(title, desc, imgSrc) {
+            document.getElementById('lightboxTitle').innerText = title;
+            document.getElementById('lightboxDesc').innerText = desc;
+            document.getElementById('lightboxImg').src = imgSrc;
+            document.getElementById('lightbox').classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.add('hidden');
+        }
+
+        // --- 4. RSVP FORM LOGIC WITH CONFETTI ---
+        function handleRSVP(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('guestName').value;
+            const attending = document.getElementById('attending').value;
+            const count = document.getElementById('guestCount').value;
+
+            // Trigger Confetti Animation
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 120,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+
+            // Save response in Browser LocalStorage
+            const rsvpData = { name, attending, count, time: new Date().toISOString() };
+            let existingRSVPs = JSON.parse(localStorage.getItem('wedding_rsvps') || '[]');
+            existingRSVPs.push(rsvpData);
+            localStorage.setItem('wedding_rsvps', JSON.stringify(existingRSVPs));
+
+            // Hide Form & Show Confirmation
+            document.getElementById('rsvpForm').classList.add('hidden');
+            const successText = attending === 'yes'
+                ? `Woohoo! We're thrilled to celebrate with you, ${name}! (${count} guest/s reserved)`
+                : `We'll miss you, ${name}! Thank you for letting us know.`;
+            
+            document.getElementById('successText').innerText = successText;
+            document.getElementById('rsvpSuccess').classList.remove('hidden');
+        }
+
+        function resetRSVP() {
+            document.getElementById('rsvpForm').reset();
+            document.getElementById('rsvpForm').classList.remove('hidden');
+            document.getElementById('rsvpSuccess').classList.add('hidden');
+        }
+
+        // --- 5. ICAL (.ICS) CALENDAR GENERATOR ---
+        function downloadICS() {
+            const icsData = 
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Alex and Sam Wedding//EN
+BEGIN:VEVENT
+SUMMARY:Alex & Sam's Wedding
+DESCRIPTION:We are getting married! Join us for our ceremony and reception.
+LOCATION:St. Helena Sunset Garden, Napa Valley, CA
+DTSTART:20271016T160000Z
+DTEND:20271017T000000Z
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR`;
+
+            const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.setAttribute('download', 'Alex_and_Sam_Wedding.ics');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // --- 6. INSTRUCTIONS DRAWER ---
+        function toggleInstructions() {
+            const modal = document.getElementById('instructionsModal');
+            modal.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
